@@ -15,16 +15,19 @@
 ```powershell
 cd C:\Users\user\Desktop\Fincraft-Data-HUB
 python scripts/fetch_stooq.py
+python scripts/fetch_nbp_fx.py
 ```
 
-Stooq CSV bywa blokowane (`Access denied` / `Odmowa dostępu`) nawet po bramce PoW — skrypt wtedy bierze **Yahoo** (zgodnie z fallbackiem z docs). Artefakty: `data/raw/` (gitignored). Dalej: H2 NBP, H3 Parquet+manifest, H4 Release.
+Stooq CSV bywa blokowane (`Access denied` / `Odmowa dostępu`) nawet po bramce PoW — skrypt wtedy bierze **Yahoo** (zgodnie z fallbackiem z docs). NBP tabela A: USD/PLN + EUR/PLN. Artefakty: `data/raw/` (gitignored). Dalej: H3 Parquet+manifest, H4 Release.
 
 ## Struktura
 
 ```
 config/tickers_watchlist.csv
 scripts/fetch_stooq.py
+scripts/fetch_nbp_fx.py
 schema/prices_eod.md
+schema/fx_nbp_a.md
 ```
 
 ## Powiązane projekty
