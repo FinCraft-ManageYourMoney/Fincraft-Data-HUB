@@ -8,13 +8,24 @@
 - Aktualizowana automatycznie — aplikacja FinCraft może z niej pobierać dane do wyceny portfela.
 - **Nie zawiera** żadnych danych użytkowników, transakcji ani portfeli.
 
-## Po co istnieje
-
-FinCraft działa lokalnie na komputerze użytkownika. Notowania rynkowe są wspólne dla wszystkich — dlatego są tu, publicznie, osobno od aplikacji i osobno od prywatnych danych inwestora.
-
 ## Status
 
-Projekt w budowie. Tu pojawią się codzienne pliki z notowaniami i automatyczna aktualizacja.
+**H0–H1:** watchlista 10 tickerów + lokalny fetch.
+
+```powershell
+cd C:\Users\user\Desktop\Fincraft-Data-HUB
+python scripts/fetch_stooq.py
+```
+
+Stooq CSV bywa blokowane (`Access denied` / `Odmowa dostępu`) nawet po bramce PoW — skrypt wtedy bierze **Yahoo** (zgodnie z fallbackiem z docs). Artefakty: `data/raw/` (gitignored). Dalej: H2 NBP, H3 Parquet+manifest, H4 Release.
+
+## Struktura
+
+```
+config/tickers_watchlist.csv
+scripts/fetch_stooq.py
+schema/prices_eod.md
+```
 
 ## Powiązane projekty
 

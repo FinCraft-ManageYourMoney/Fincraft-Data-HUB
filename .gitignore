@@ -1,9 +1,7 @@
+# FinCraft Data Hub — local artifacts (never commit market dumps in bulk if huge)
+data/
 __pycache__/
-.venv/
 *.pyc
-.idea/
-.vscode/
-*.log
-tmp/
-temp/
-Thumbs.db
+.venv/
+venv/
+.env

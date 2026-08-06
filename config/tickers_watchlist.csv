@@ -1,0 +1,11 @@
+ticker,stooq_symbol,yahoo_symbol,name,market,note
+CDR,cdr.pl,CDR.WA,CD Projekt,GPW,V1 seed
+PKO,pko.pl,PKO.WA,PKO BP,GPW,V1 seed
+PZU,pzu.pl,PZU.WA,PZU,GPW,V1 seed
+KGH,kgh.pl,KGH.WA,KGHM,GPW,V1 seed
+PEO,peo.pl,PEO.WA,Bank Pekao,GPW,V1 seed
+AAPL,aapl.us,AAPL,Apple,US,V1 seed
+MSFT,msft.us,MSFT,Microsoft,US,V1 seed
+SPY,spy.us,SPY,SPDR S&P 500 ETF,US,V1 seed
+VWCE,vwce.de,VWCE.DE,Vanguard FTSE All-World,EU,V1 seed
+EUNL,eunl.de,EUNL.DE,iShares Core MSCI World,EU,V1 seed
