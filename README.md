@@ -20,6 +20,15 @@ python scripts/run_eod.py
 
 Stooq CSV bywa blokowane — wtedy Yahoo. Artefakty lokalne w `data/` (gitignored). Release: tag `data-latest` (cron pn–pt ~22:30 CET).
 
+### Pierwszy Release (H4 — ręcznie)
+
+1. GitHub → repo **Fincraft-Data-HUB** → **Actions** → **EOD Data Hub**
+2. **Run workflow** → branch `main` → Run
+3. Po sukcesie: **Releases** → `data-latest` (manifest.json + Parquet)
+4. W App: **Odśwież notowania z Hub** (Tracker pobiera i weryfikuje SHA)
+
+Bez Release App zwróci `HUB_RELEASE_NOT_FOUND` (fallback: lokalny `hub_cache` jeśli wcześniej zsynchronizowano).
+
 ## Struktura
 
 ```
