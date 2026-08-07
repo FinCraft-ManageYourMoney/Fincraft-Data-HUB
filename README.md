@@ -10,15 +10,19 @@
 
 ## Status
 
-**H0–H1:** watchlista 10 tickerów + lokalny fetch.
+**H0–H3:** watchlista + fetch + NBP + Parquet + manifest SHA.
 
 ```powershell
 cd C:\Users\user\Desktop\Fincraft-Data-HUB
+pip install -r requirements.txt
 python scripts/fetch_stooq.py
 python scripts/fetch_nbp_fx.py
+python scripts/build_parquet.py
+python scripts/build_manifest.py
+python tests/test_hub_h3.py
 ```
 
-Stooq CSV bywa blokowane (`Access denied` / `Odmowa dostępu`) nawet po bramce PoW — skrypt wtedy bierze **Yahoo** (zgodnie z fallbackiem z docs). NBP tabela A: USD/PLN + EUR/PLN. Artefakty: `data/raw/` (gitignored). Dalej: H3 Parquet+manifest, H4 Release.
+Stooq CSV bywa blokowane — wtedy Yahoo. Artefakty lokalne w `data/` (gitignored). Dalej: H4 Release `data-latest`.
 
 ## Struktura
 
@@ -26,8 +30,12 @@ Stooq CSV bywa blokowane (`Access denied` / `Odmowa dostępu`) nawet po bramce P
 config/tickers_watchlist.csv
 scripts/fetch_stooq.py
 scripts/fetch_nbp_fx.py
+scripts/build_parquet.py
+scripts/build_manifest.py
 schema/prices_eod.md
 schema/fx_nbp_a.md
+tests/test_hub_h3.py
+requirements.txt
 ```
 
 ## Powiązane projekty
