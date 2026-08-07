@@ -1,3 +1,4 @@
+# CI — Hub unit/schema tests (plan 7.2).
 name: CI
 
 on:
@@ -22,10 +23,24 @@ jobs:
 
       - name: Build sample artifacts (uses cached raw if present)
         run: |
-          if [ ! -f data/raw/CDR_*.csv ]; then python scripts/fetch_stooq.py; fi
-          if [ ! -f data/raw/fx_nbp_a_*.csv ]; then python scripts/fetch_nbp_fx.py; fi
+          set -euo pipefail
+          if ! ls data/raw/CDR_*.csv 1>/dev/null 2>&1; then python scripts/fetch_stooq.py; fi
+          if ! ls data/raw/fx_nbp_a_*.csv 1>/dev/null 2>&1; then python scripts/fetch_nbp_fx.py; fi
           python scripts/build_parquet.py
           python scripts/build_manifest.py
 
       - name: HUB-03 tests
         run: python tests/test_hub_h3.py
+
+      - name: Manifest contract smoke
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          m = json.loads(pathlib.Path("data/out/manifest.json").read_text(encoding="utf-8"))
+          assert m["schema_version"] == 1
+          assert isinstance(m["files"], list) and len(m["files"]) >= 1
+          for f in m["files"]:
+              assert "name" in f and "sha256" in f
+              assert len(f["sha256"]) == 64
+          print("HUB contract OK")
+          PY

@@ -1,4 +1,4 @@
-# Data Hub — daily EOD job (docs/09 §5, plan H4).
+# Data Hub — daily EOD job (docs/09 §5, plan H4 / 7.2).
 name: EOD Data Hub
 
 on:
@@ -29,6 +29,19 @@ jobs:
       - name: Run EOD pipeline
         run: python scripts/run_eod.py
 
+      - name: Verify artifacts
+        run: |
+          set -euo pipefail
+          test -f data/out/manifest.json
+          ls data/out/*.parquet
+          python - <<'PY'
+          import json, pathlib
+          m = json.loads(pathlib.Path("data/out/manifest.json").read_text(encoding="utf-8"))
+          assert m.get("schema_version") == 1
+          assert m.get("files"), "manifest.files empty"
+          print("manifest OK:", m.get("generated_at"), "files:", len(m["files"]))
+          PY
+
       - name: Publish Release data-latest
         uses: softprops/action-gh-release@v2
         with:
@@ -43,3 +56,20 @@ jobs:
           make_latest: true
           overwrite_files: true
           generate_release_notes: false
+
+      - name: Dated tag name
+        id: date
+        run: echo "tag=data-$(date -u +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+
+      - name: Publish dated Release tag
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.date.outputs.tag }}
+          name: FinCraft Data Hub ${{ steps.date.outputs.tag }}
+          body: Snapshot ${{ steps.date.outputs.tag }} from EOD run ${{ github.run_id }}.
+          files: |
+            data/out/manifest.json
+            data/out/*.parquet
+          make_latest: false
+          generate_release_notes: false
+          overwrite_files: true
