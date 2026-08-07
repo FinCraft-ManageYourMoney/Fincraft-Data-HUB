@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - run: pip install -r requirements.txt certifi
+
+      - name: Build sample artifacts (uses cached raw if present)
+        run: |
+          if [ ! -f data/raw/CDR_*.csv ]; then python scripts/fetch_stooq.py; fi
+          if [ ! -f data/raw/fx_nbp_a_*.csv ]; then python scripts/fetch_nbp_fx.py; fi
+          python scripts/build_parquet.py
+          python scripts/build_manifest.py
+
+      - name: HUB-03 tests
+        run: python tests/test_hub_h3.py

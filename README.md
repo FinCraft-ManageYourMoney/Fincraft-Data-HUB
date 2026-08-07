@@ -10,28 +10,26 @@
 
 ## Status
 
-**H0–H3:** watchlista + fetch + NBP + Parquet + manifest SHA.
+**H0–H4:** watchlista + fetch + NBP + Parquet + manifest SHA + GitHub Actions Release `data-latest`.
 
 ```powershell
 cd C:\Users\user\Desktop\Fincraft-Data-HUB
 pip install -r requirements.txt
-python scripts/fetch_stooq.py
-python scripts/fetch_nbp_fx.py
-python scripts/build_parquet.py
-python scripts/build_manifest.py
-python tests/test_hub_h3.py
+python scripts/run_eod.py
 ```
 
-Stooq CSV bywa blokowane — wtedy Yahoo. Artefakty lokalne w `data/` (gitignored). Dalej: H4 Release `data-latest`.
+Stooq CSV bywa blokowane — wtedy Yahoo. Artefakty lokalne w `data/` (gitignored). Release: tag `data-latest` (cron pn–pt ~22:30 CET).
 
 ## Struktura
 
 ```
 config/tickers_watchlist.csv
+scripts/run_eod.py
 scripts/fetch_stooq.py
 scripts/fetch_nbp_fx.py
 scripts/build_parquet.py
 scripts/build_manifest.py
+.github/workflows/eod.yml
 schema/prices_eod.md
 schema/fx_nbp_a.md
 tests/test_hub_h3.py
